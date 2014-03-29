@@ -1,3 +1,3 @@
-/media
-/var
+/media/*
+/var/*
 /app/etc/local.xml
