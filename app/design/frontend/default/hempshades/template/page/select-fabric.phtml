@@ -1,0 +1,56 @@
+<?php
+$materials = Mage::getResourceModel('material/material_collection');
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+    <?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="main-container col2-left-layout">
+            <div class="main">
+                <?php echo $this->getChildHtml('breadcrumbs') ?>
+                <div class="col-main">
+                    <?php echo $this->getChildHtml('global_messages') ?>
+                    <div class="page-title">
+                        <h1>To estimate price, or submit an order please click on desired fabric.</h1>
+                    </div>
+                    <div class="category-products">
+                        <ul class="products-grid">
+                            <?php $count = 1;?>
+                            <?php foreach($materials as $material):?>
+                                <li class="item">
+                                    <a href="<?php echo Mage::getBaseUrl().'customizer/index/prepare/fabricid/'.$material->getId();?>" title="<?php echo $material->getMaterialContent();?>" class="product-image">
+                                        <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'fabric_images/'.$material->getMaterialImage();?>" width="170" height="170">
+                                    </a>
+                                    <h2 class="product-name">
+                                        <a href="<?php echo Mage::getBaseUrl().'customizer/index/prepare/fabricid/'.$material->getId();?>" title="<?php echo $material->getMaterialContent();?>"><?php echo $material->getMaterialName();?></a>
+                                    </h2>
+                                </li>
+                                <?php if($count%3 == 0):?>
+                                    </ul>
+                                    <ul class="products-grid">
+                                <?php
+                                      endif;
+                                      $count++;
+                                ?>
+                            <?php endforeach?>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-left sidebar"><?php echo $this->getChildHtml('left') ?></div>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('footer') ?>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

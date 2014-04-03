@@ -1,0 +1,355 @@
+<?php 
+$material_id = (int)Mage::getSingleton('core/session')->getFabricId();
+$material = Mage::getModel('material/material')->load($material_id);
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+    <?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="main-container col2-left-layout">
+            <div class="main">
+                <?php echo $this->getChildHtml('breadcrumbs') ?>
+                <div class="col-main">
+                    <?php echo $this->getChildHtml('global_messages') ?>
+                    <form name="customizer_form" id="customizer_form" action="<?php echo Mage::getBaseUrl(); ?>customizer/index/save" method="POST">
+                        <input type="hidden" id="form_key" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+                        <input type="hidden" id="material_id" name="material_id" value="<?php echo $material->getId();?>">
+                        <table border="0" style="border-spacing: 2px; width: 100%;" bgcolor="#FFFFFF" align="center">
+                        <tr>
+                            <td bgcolor="#EDEDBC" align="center" colspan="8">
+                                <tt>
+                                    <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'fabric_images/'.$material->getMaterialImage();?>" width="150" height="120" align="right">
+                                    <font size="3" color="#4D4D3A"><b><br>  <br> <br>  &nbsp; &nbsp; Fabric: <?php echo $material->getMaterialName();?> </b></font>
+                                </tt>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" bgcolor="#C1C191">
+                                <tt>
+                                    <font size="2" color="#4D4D3A"><b>Room</b></font>
+                                </tt>
+                            </td>
+                            <td align="center" bgcolor="#C1C191">
+                                <tt>
+                                    <font size="2" color="#4D4D3A"><b>Qty</b></font>
+                                </tt>
+                            </td>
+                            <td align="center" bgcolor="#C1C191">
+                                <tt>
+                                    <font size="2" color="#4D4D3A"><b>Width</b></font>
+                                    <font size="2" color="#4D4D3A"><br>(inches)</font>
+                                </tt>
+                            </td>
+                            <td align="center" bgcolor="#C1C191">
+                                <tt>
+                                    <font size="2" color="#4D4D3A"><b>Height</b></font>
+                                    <font size="2" color="#4D4D3A"><br>(inches)</font>
+                                </tt>
+                            </td>
+                            <td align="center" bgcolor="#C1C191">
+                                <tt>
+                                    <font size="2" color="#4D4D3A"><b>Cord</b></font>
+                                </tt>
+                            </td>
+                            <td align="center" bgcolor="#C1C191">
+                                <tt>
+                                    <font size="2" color="#4D4D3A"><b>Mount</b></font>
+                                </tt>
+                            </td>
+                            <td align="center" bgcolor="#C1C191">
+                                <tt>
+                                    <font size="2" color="#4D4D3A"><b>Price/Ea</b></font>
+                                </tt>
+                            </td>
+                        </tr>
+                        <tr class="room-row">
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" size="12" name="data[room][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" class="input-text required-entry qty" size="1" name="data[qty][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" class="input-text required-entry width" size="7" name="data[width][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" class="input-text required-entry height" size="7" name="data[height][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <select width="100%" class="required-entry" size="1" name="data[cord][]">
+                                    <option value="0" selected="">Right</option>
+                                    <option value="1">Left</option>
+                                </select>
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <select width="100%" class="required-entry" size="1" name="data[mount][]">
+                                    <option value="0" selected=""> Inside</option>
+                                    <option value="1"> Outside</option>
+                                </select>
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <tt>
+                                    <font size="2" color="#7D7D4A" class="subtotal"></font>
+                                </tt>
+                            </td>
+                        </tr>
+                            <tr class="room-row">
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <input type="text" size="12" name="data[room][]" value="">
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <input type="text" class="input-text qty" size="1" name="data[qty][]" value="">
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <input type="text" class="input-text width" size="7" name="data[width][]" value="">
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <input type="text" class="input-text height" size="7" name="data[height][]" value="">
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <select width="100%" class="required-entry" size="1" name="data[cord][]">
+                                        <option value="0" selected="">Right</option>
+                                        <option value="1">Left</option>
+                                    </select>
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <select width="100%" class="required-entry" size="1" name="data[mount][]">
+                                        <option value="0" selected=""> Inside</option>
+                                        <option value="1"> Outside</option>
+                                    </select>
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <tt>
+                                        <font size="2" color="#7D7D4A" class="subtotal"></font>
+                                    </tt>
+                                </td>
+                            </tr>
+                            <tr class="room-row">
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <input type="text" size="12" name="data[room][]" value="">
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <input type="text" class="input-text qty" size="1" name="data[qty][]" value="">
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <input type="text" class="input-text width" size="7" name="data[width][]" value="">
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <input type="text" class="input-text height" size="7" name="data[height][]" value="">
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <select width="100%" class="required-entry" size="1" name="data[cord][]">
+                                        <option value="0" selected="">Right</option>
+                                        <option value="1">Left</option>
+                                    </select>
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <select width="100%" class="required-entry" size="1" name="data[mount][]">
+                                        <option value="0" selected=""> Inside</option>
+                                        <option value="1"> Outside</option>
+                                    </select>
+                                </td>
+                                <td align="center" bgcolor="#EDEDBC">
+                                    <tt>
+                                        <font size="2" color="#7D7D4A" class="subtotal"></font>
+                                    </tt>
+                                </td>
+                            </tr>
+                        <tr class="room-row">
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" size="12" name="data[room][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" class="input-text qty" size="1" name="data[qty][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" class="input-text width" size="7" name="data[width][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" class="input-text height" size="7" name="data[height][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <select width="100%" class="required-entry" size="1" name="data[cord][]">
+                                    <option value="0" selected="">Right</option>
+                                    <option value="1">Left</option>
+                                </select>
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <select width="100%" class="required-entry" size="1" name="data[mount][]">
+                                    <option value="0" selected=""> Inside</option>
+                                    <option value="1"> Outside</option>
+                                </select>
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <tt>
+                                    <font size="2" color="#7D7D4A" class="subtotal"></font>
+                                </tt>
+                            </td>
+                        </tr>
+                        <tr class="room-row">
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" size="12" name="data[room][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" class="input-text qty" size="1" name="data[qty][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" class="input-text width" size="7" name="data[width][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <input type="text" class="input-text height" size="7" name="data[height][]" value="">
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <select width="100%" class="required-entry" size="1" name="data[cord][]">
+                                    <option value="0" selected="">Right</option>
+                                    <option value="1">Left</option>
+                                </select>
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <select width="100%" class="required-entry" size="1" name="data[mount][]">
+                                    <option value="0" selected=""> Inside</option>
+                                    <option value="1"> Outside</option>
+                                </select>
+                            </td>
+                            <td align="center" bgcolor="#EDEDBC">
+                                <tt>
+                                    <font size="2" color="#7D7D4A" class="subtotal"></font>
+                                </tt>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#EDEDBC" colspan="7" align="left">
+                                <tt>
+                                    <font size="2" color="#4D4D3A">
+                                        If you need to buy the same fabric by the yard we recommend ordering shades <br>and fabric at the same time  to ensure they come from the same dye lot. <br>Fabric purchases must be made in full yard increments.
+                                    </font>
+                                </tt>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#EDEDBC" colspan="6" align="left">
+                                <tt>
+                                    <font size="2" color="#4D4D3A">
+                                        Main fabric:  <?php echo $material->getMaterialContent();?> Hemp
+                                        <input type="text" size="2" name="yardage_main_fabric" id="yardage_main_fabric" value="">yard(s)
+                                    </font>
+                                </tt>
+                            </td>
+                            <td bgcolor="#EDEDBC">
+                                <tt>
+                                    <font size="2" color="#4D4D3A" id="yards-subtotal"> </font>
+                                </tt>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#EDEDBC" colspan="6" align="left">
+                                <tt>
+                                    <font size="2" color="#4D4D3A">
+                                        Notes:<br>
+                                        <textarea name="notes" rows="3" cols="58" wrap="virtual" value=""> </textarea>
+                                    </font>
+                                </tt>
+                            </td>
+                            <td bgcolor="#EDEDBC"></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#EDEDBC" colspan="6" align="center">
+                                <font face="arial" size="3" color="#4D4D3A"><br>If you made any changes, please press this button to</font>
+                                <a id="btnUpdate" href="javascript:void(0);"><img style="vertical-align: middle;" src="<?php echo  $this->getSkinUrl('images/update3.gif') ?>" border="0"></a>
+                                <br><br> &nbsp;
+                                <input type="image" src="<?php echo  $this->getSkinUrl('images/add-to-cart2.gif')?>" name="add_to_cart" value="add" border="0"><br>&nbsp;
+                            </td>
+                            <td bgcolor="#EDEDBC" align="right">
+                                <font size="2" color="#4D4D3A"><b>&nbsp; Total:&nbsp; $<span id="total">0.00</span> &nbsp;  </b></font>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                    <script type="text/javascript">
+                        //<![CDATA[
+                        var productAddToCartForm = new VarienForm('customizer_form');
+                        productAddToCartForm.submit = function(button, url) {
+                            if (this.validator.validate()) {
+                                var form = this.form;
+                                var oldUrl = form.action;
+
+                                if (url) {
+                                    form.action = url;
+                                }
+                                var e = null;
+                                try {
+                                    this.form.submit();
+                                } catch (e) {
+                                }
+                                this.form.action = oldUrl;
+                                if (e) {
+                                    throw e;
+                                }
+
+                                if (button && button != 'undefined') {
+                                    button.disabled = true;
+                                }
+                            }
+                        }.bind(productAddToCartForm);
+
+                        $('btnUpdate').observe('click', function(event) {
+                            var price = <?php echo $material->getMaterialStitchlineSqFtPrice()?>,
+                                price_per_yard = <?php echo $material->getMaterialPricePerYard()?>,
+                                total = 0;
+                            $$('.room-row').each( function(item) {
+                                var qty = item.down('.qty').getValue();
+                                var width = getDecimalFraction(item.down('.width').getValue());
+                                var height = getDecimalFraction(item.down('.height').getValue());
+                                var sttl = qty * (width * height / 144) * price;
+                                total += sttl;
+                                item.down('.subtotal').update('<b>'+sttl.toFixed(2)+'</b>');
+                            });
+                            var yards = getDecimalFraction($('yardage_main_fabric').getValue()),
+                                yards_ttl = 0;
+                            if(yards != '')
+                                yards_ttl = yards * price_per_yard;
+                            $('yards-subtotal').update(yards_ttl.toFixed(2));
+                            total += yards_ttl;
+                            $('total').update(total.toFixed(2));
+                        });
+
+                        function getDecimalFraction($w)
+                        {
+                            if($w =="") return 0;
+                            $w = $w.trim().replace(',','.');
+                            $line = $w.split(' ');//explode(' ', $w);
+                            $digit_w = $line[0];
+                            $line_for_drob = $w.split($digit_w);//explode($digit_w, $w);
+                            $drob = $line_for_drob[1] ;
+                            $drob = $drob.trim();
+                            $digit_w = parseFloat($digit_w);
+                            if($drob != ' ' && $drob != "" )
+                            {
+                                $drob2 = $drob.split("/");//explode("/", $drob);
+                                $chislitel =$drob2[0].trim();
+                                $znamenatel = $drob2[1].trim();
+                                $digit_w = $digit_w + $chislitel/$znamenatel;
+                            }
+                            return $digit_w;
+                        }
+                        //]]>
+                    </script>
+                </div>
+                <div class="col-left sidebar"><?php echo $this->getChildHtml('left') ?></div>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('footer') ?>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

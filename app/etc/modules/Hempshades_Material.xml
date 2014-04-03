@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Hempshades_Material>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Hempshades_Material>
+    </modules>
+</config> 

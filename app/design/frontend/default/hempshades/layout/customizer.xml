@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customizer_index_index>
+        <reference name="left">
+            <block type="core/template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>
+            <block type="catalog/navigation" name="catalog.leftnav" after="top.search" template="catalog/navigation/left.phtml" />
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/customizer.phtml</template>
+            </action>
+        </reference>
+    </customizer_index_index>   
+    <customizer_index_save>
+        <reference name="left">
+            <block type="core/template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>
+            <block type="catalog/navigation" name="catalog.leftnav" after="top.search" template="catalog/navigation/left.phtml" />
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/customizer.phtml</template>
+            </action>
+        </reference>
+    </customizer_index_save>  
+    <customizer_index_select>
+        <reference name="left">
+            <block type="core/template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>
+            <block type="catalog/navigation" name="catalog.leftnav" after="top.search" template="catalog/navigation/left.phtml" />
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/select-fabric.phtml</template>
+            </action>
+        </reference>
+    </customizer_index_select>
+</layout>
