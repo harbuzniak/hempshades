@@ -238,7 +238,7 @@ $material = Mage::getModel('material/material')->load($material_id);
                                 <tt>
                                     <font size="2" color="#4D4D3A">
                                         Main fabric:  <?php echo $material->getMaterialContent();?> Hemp
-                                        <input type="text" size="2" name="yardage_main_fabric" id="yardage_main_fabric" value="">yard(s)
+                                        <input type="text" size="2" name="data[yards]" id="yardage_main_fabric" value="">yard(s)
                                     </font>
                                 </tt>
                             </td>
@@ -247,17 +247,6 @@ $material = Mage::getModel('material/material')->load($material_id);
                                     <font size="2" color="#4D4D3A" id="yards-subtotal"> </font>
                                 </tt>
                             </td>
-                        </tr>
-                        <tr>
-                            <td bgcolor="#EDEDBC" colspan="6" align="left">
-                                <tt>
-                                    <font size="2" color="#4D4D3A">
-                                        Notes:<br>
-                                        <textarea name="notes" rows="3" cols="58" wrap="virtual" value=""> </textarea>
-                                    </font>
-                                </tt>
-                            </td>
-                            <td bgcolor="#EDEDBC"></td>
                         </tr>
                         <tr>
                             <td bgcolor="#EDEDBC" colspan="6" align="center">

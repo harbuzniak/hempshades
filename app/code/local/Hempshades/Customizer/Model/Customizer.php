@@ -55,7 +55,7 @@ class Hempshades_Customizer_Model_Customizer extends Mage_Core_Model_Abstract {
         return $url;
     }
     
-    public function createProduct($material_id, $options) {
+    public function createProduct($material_id, $params) {
         $material = Mage::getModel('material/material')->load($material_id);
         if(!$material){
             return false;
@@ -77,8 +77,8 @@ class Hempshades_Customizer_Model_Customizer extends Mage_Core_Model_Abstract {
             'small_image',
             'image'
         );
-        $iw = $this->_getDecimalFraction($options['width']);
-        $ih = $this->_getDecimalFraction($options['height']);
+        $iw = $this->_getDecimalFraction($params['width']);
+        $ih = $this->_getDecimalFraction($params['height']);
         $SQ_FT =($iw*$ih/144);
         $price = $material->getMaterialStitchlineSqFtPrice()*$SQ_FT; // price will be set in options
                 
@@ -172,7 +172,7 @@ class Hempshades_Customizer_Model_Customizer extends Mage_Core_Model_Abstract {
         $product->setSku($sku);
         $product->setAttributeSetId(4);
         $product->setTypeId('simple');
-        $product->setName($data['material_name']);
+        $product->setName($data['material_name'].' Shades '.$params['width'].'x'.$params['height']);
         $product->setData('material',$material->getId());
         $product->setCategoryIds(array(3));
         $product->setWebsiteIDs(array(1));
@@ -198,6 +198,86 @@ class Hempshades_Customizer_Model_Customizer extends Mage_Core_Model_Abstract {
                                         'is_in_stock' => '1',
                                     )
                 );
+        $product->setCreatedAt(date("Y-m-d H:i:s"));
+
+        Mage::getSingleton('catalog/product_option')->unsetOptions();
+        $product->setProductOptions($options);
+        $product->setCanSaveCustomOptions(true);
+        $product->save();
+        return $product;
+    }
+
+    public function createMaterialProduct($material_id, $size) {
+        $material = Mage::getModel('material/material')->load($material_id);
+        if(!$material){
+            return false;
+        }
+        $data = $material->getData();
+
+        $sku = trim($data['sku']);
+        $sku = 'HS_FABRIC_' . str_pad($material_id, 3, '0', STR_PAD_LEFT).'_'.$sku;
+
+        $skuExist = Mage::getModel('catalog/product')->getIdBySku($sku);
+        if($skuExist){
+            $sku .= '_' . time();
+        }
+
+        $qty = 10000;
+
+        $visibility = array(
+            'thumbnail',
+            'small_image',
+            'image'
+        );
+        $yards = $this->_getDecimalFraction($size);
+        $price = $material->getMaterialPricePerYard()*$yards; // price will be set in options
+
+        $pngPath = Mage::getBaseDir('media') . DS . 'fabric_images' . DS;
+        $pngName = $data['material_image'];
+        $filepath = $pngPath . $pngName;
+
+        $options = array(
+            '0' => array(
+                'title' => 'Yards',
+                'type' => 'field',
+                'is_require' => '1',
+                'sort_order' => '1',
+                'price' => 0,
+                'price_type' => 'fixed',
+                'sku' => '',
+            )
+        );
+
+        $product = new Mage_Catalog_Model_Product();
+        $product->setSku($sku);
+        $product->setAttributeSetId(4);
+        $product->setTypeId('simple');
+        $product->setName($data['material_name'].' Fabric '.$size.' yards');
+        $product->setData('material',$material->getId());
+        $product->setCategoryIds(array(3));
+        $product->setWebsiteIDs(array(1));
+        $product->setDescription($data['material_description']);
+        $product->setShortDescription($data['material_description']);
+        $product->setPrice($price);
+        $product->setWeight(1.0000);
+        $product->setMetaKeyword($data['keywords']);
+
+        $product->addImageToMediaGallery($filepath, $visibility, false, false);
+        $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+        $product->setStatus(1);
+        $product->setTaxClassId(0);
+        $product->setStockData(array(
+                'use_config_manage_stock' => '1',
+                'qty' => $qty,
+                'use_config_min_qty' => '1',
+                'use_config_min_sale_qty' => '1',
+                'use_config_max_sale_qty' => '1',
+                'is_qty_decimal' => '0',
+                'use_config_backorders' => '1',
+                'use_config_notify_stock_qty' => '1',
+                'is_in_stock' => '1',
+            )
+        );
         $product->setCreatedAt(date("Y-m-d H:i:s"));
 
         Mage::getSingleton('catalog/product_option')->unsetOptions();
@@ -256,59 +336,59 @@ class Hempshades_Customizer_Model_Customizer extends Mage_Core_Model_Abstract {
         return $this->_getCart()->getQuote();
     }
 
-    public function addToCart($product_id, $data){
-        $product = Mage::getModel('catalog/product')->load($product_id);
-        $options = $product->getOptions();
-        $params = array();
-
-        $params['qty'] = $data['qty'];
-        $params['options'] = array();
-        $params['tdtk'] = 1;
-
-        foreach ($options as $o) {
-            switch($o->getTitle()){
-                case 'Room':
-                    $params['options'][$o->getId()] = $data['room'];
-                    break;
-                case 'Width':
-                    $params['options'][$o->getId()] = $data['width'];
-                    break;
-                case 'Height':
-                    $params['options'][$o->getId()] = $data['height'];
-                    break;
-                case 'Cord':
-                    $vals = $o->getValues();
-                    $count = 0;
-                    foreach ($vals as $idx => $val) {
-                        if($count == $data['cord']){
-                            $params['options'][$o->getId()] = $val->getOptionTypeId();
-                            break;
-                        }
-                        $count++;
-                    }
-                    break;
-                case 'Mount':
-                    $vals = $o->getValues();
-                    $count = 0;
-                    foreach ($vals as $idx => $val) {
-                        if($count == $data['mount']){
-                            $params['options'][$o->getId()] = $val->getOptionTypeId();
-                            break;
-                        }
-                        $count++;
-                    }
-                    break;
-            }
-            if ($o->getTitle() == 'Material'){
-                $materials = $o->getValues();
-                $material_id = $o->getId();
-                break;
-            }
-        }
-
+    public function addToCart($products){
         $cart   = $this->_getCart();
-        $cart->addProduct($product, $params);
-        $cart->save();
+        foreach($products as $product_id => $data){
+            $product = Mage::getModel('catalog/product')->load($product_id);
+            $options = $product->getOptions();
+            $params = array();
+
+            $params['qty'] = $data['qty'];
+            $params['options'] = array();
+            $params['tdtk'] = 1;
+
+            foreach ($options as $o) {
+                switch($o->getTitle()){
+                    case 'Yards':
+                        $params['options'][$o->getId()] = $data['yards'];
+                        break;
+                    case 'Room':
+                        $params['options'][$o->getId()] = $data['room'];
+                        break;
+                    case 'Width':
+                        $params['options'][$o->getId()] = $data['width'];
+                        break;
+                    case 'Height':
+                        $params['options'][$o->getId()] = $data['height'];
+                        break;
+                    case 'Cord':
+                        $vals = $o->getValues();
+                        $count = 0;
+                        foreach ($vals as $idx => $val) {
+                            if($count == $data['cord']){
+                                $params['options'][$o->getId()] = $val->getOptionTypeId();
+                                break;
+                            }
+                            $count++;
+                        }
+                        break;
+                    case 'Mount':
+                        $vals = $o->getValues();
+                        $count = 0;
+                        foreach ($vals as $idx => $val) {
+                            if($count == $data['mount']){
+                                $params['options'][$o->getId()] = $val->getOptionTypeId();
+                                break;
+                            }
+                            $count++;
+                        }
+                        break;
+                }
+            }
+            $cart->addProduct($product, $params);
+        }
+        $res = $cart->save();
         $this->_getSession()->setCartWasUpdated(true);
+        return $res;
     }
 }

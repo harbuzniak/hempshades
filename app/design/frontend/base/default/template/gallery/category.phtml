@@ -1,0 +1,20 @@
+<div class="page-title">
+    <h1><?php echo $this->__('Gallery') ?></h1>
+</div>
+
+<?php $cnt = count($this->getCategory()); ?>
+<?php if($cnt > 0 ): ?>
+<ul id="gallery_con">
+	<?php foreach ($this->getCategory() as $item): ?>                  
+	<li>
+        <a class="image_gal" href="gallery/category/?cat=<?php   echo $item->getCategoryId(); ?>">
+           <img src="<?php echo $this->resizeImage($item->getFilename(), 208, 230, ''); ?>" alt="<?php   echo $item->getTitle(); ?>" />
+        </a>
+		<a class="link_gal" href="gallery/category/?cat=<?php   echo $item->getCategoryId(); ?>"><?php   echo $item->getTitle(); ?></a>
+		<!--<p><?php echo $item->getContent(); ?></p>-->
+	</li>
+	<?php endforeach;  ?> 
+</ul>
+<?php else: ?>
+	<div>There is no Category here</div>
+<?php endif; ?>

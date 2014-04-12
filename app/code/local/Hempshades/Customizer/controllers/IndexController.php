@@ -24,9 +24,9 @@ class Hempshades_Customizer_IndexController extends Mage_Core_Controller_Front_A
     
     public function saveAction() {
         $params = $this->getRequest()->getParams();
-        //var_dump($data); exit();
         $customizer = Mage::getModel('customizer/customizer');
         $data = $params['data'];
+        $products = array();
         foreach($data['qty'] as $idx => $qty){
             if(!empty($data['qty'][$idx]) && !empty($data['width'][$idx]) && !empty($data['height'][$idx])){
                 $options = array();
@@ -37,9 +37,20 @@ class Hempshades_Customizer_IndexController extends Mage_Core_Controller_Front_A
                 $options['cord']    = $data['cord'][$idx];
                 $options['mount']   = $data['mount'][$idx];
                 $product = $customizer->createProduct($params['material_id'],$options);
-                $res = $customizer->addToCart($product->getId(),$options);
+                $products[$product->getId()] = $options;
             }
         }
+
+        if(isset($data['yards']) && !empty($data['yards'])){
+            $product = $customizer->createMaterialProduct($params['material_id'],$data['yards']);
+            $options = array();
+            $options['qty']     = 1;
+            $options['yards']   = $data['yards'];
+            $products[$product->getId()] = $options;
+        }
+
+        $customizer->addToCart($products);
+
         $this->_redirect('checkout/cart');
     }
 

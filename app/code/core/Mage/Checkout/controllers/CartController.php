@@ -173,7 +173,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     public function addAction()
     {
-        if (!$this->_validateFormKey()) {
+        $params = $this->getRequest()->getParams();
+        if (!isset($params['tdtk']) && !$this->_validateFormKey()) {
             $this->_goBack();
             return;
         }

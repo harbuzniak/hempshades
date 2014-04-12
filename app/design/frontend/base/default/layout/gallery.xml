@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+	<gallery_index_index>
+        <reference name="content">
+            <block type="gallery/category" name="category" template="gallery/category.phtml" />
+        </reference>
+    </gallery_index_index>
+    <gallery_category_index>
+        <reference name="content">
+            <block type="gallery/gallery" name="gallery" template="gallery/gallery.phtml" />
+        </reference>
+    </gallery_category_index>
+	<gallery_image_index>
+        <reference name="content">
+            <block type="gallery/gallery" name="gallery" template="gallery/image.phtml" />
+        </reference>
+    </gallery_image_index>
+</layout> 
